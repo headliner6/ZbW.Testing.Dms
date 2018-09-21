@@ -1,4 +1,7 @@
-﻿namespace ZbW.Testing.Dms.Client.ViewModels
+﻿using System.IO;
+using ZbW.Testing.Dms.Client.Services;
+
+namespace ZbW.Testing.Dms.Client.ViewModels
 {
     using System.Collections.Generic;
 
@@ -19,6 +22,8 @@
         private string _suchbegriff;
 
         private List<string> _typItems;
+
+        private SearchDocumentService searchService;
 
         public SearchViewModel()
         {
@@ -111,11 +116,38 @@
         private void OnCmdOeffnen()
         {
             // TODO: Add your Code here
+            File.Open(searchService.MetadataItemFile, FileMode.Open);
         }
 
         private void OnCmdSuchen()
         {
+            this.searchService = new SearchDocumentService();
+            //searchService.FileOpen();
             // TODO: Add your Code here
+            {
+                this.FilteredMetadataItems = searchService.SearchMetaDataItemsAndAddToList();
+
+                if (_suchbegriff != null || _selectedTypItem != null)
+                {
+                    if (_suchbegriff != null && _selectedTypItem == null)
+                    {
+                        FilteredMetadataItems = searchService.SearchItemsByKeywordOrTyp(_suchbegriff);
+
+                    }
+                    else if (_selectedTypItem != null && _suchbegriff == null)
+                    {
+                        FilteredMetadataItems = searchService.SearchItemsByKeywordOrTyp(_selectedTypItem);
+                    }
+                    else if (_selectedTypItem != null && _selectedTypItem != null)
+                    {
+                        FilteredMetadataItems =
+                            searchService.SearchItemsByKeywordAndTyp(_suchbegriff, _selectedTypItem);
+                    }
+
+
+                }
+
+            }
         }
 
         private void OnCmdReset()

@@ -1,4 +1,8 @@
-﻿namespace ZbW.Testing.Dms.Client.ViewModels
+﻿using System.Windows;
+using ZbW.Testing.Dms.Client.Model;
+using ZbW.Testing.Dms.Client.Services;
+
+namespace ZbW.Testing.Dms.Client.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -45,80 +49,44 @@
 
         public string Stichwoerter
         {
-            get
-            {
-                return _stichwoerter;
-            }
+            get { return _stichwoerter; }
 
-            set
-            {
-                SetProperty(ref _stichwoerter, value);
-            }
+            set { SetProperty(ref _stichwoerter, value); }
         }
 
         public string Bezeichnung
         {
-            get
-            {
-                return _bezeichnung;
-            }
+            get { return _bezeichnung; }
 
-            set
-            {
-                SetProperty(ref _bezeichnung, value);
-            }
+            set { SetProperty(ref _bezeichnung, value); }
         }
 
         public List<string> TypItems
         {
-            get
-            {
-                return _typItems;
-            }
+            get { return _typItems; }
 
-            set
-            {
-                SetProperty(ref _typItems, value);
-            }
+            set { SetProperty(ref _typItems, value); }
         }
 
         public string SelectedTypItem
         {
-            get
-            {
-                return _selectedTypItem;
-            }
+            get { return _selectedTypItem; }
 
-            set
-            {
-                SetProperty(ref _selectedTypItem, value);
-            }
+            set { SetProperty(ref _selectedTypItem, value); }
         }
 
         public DateTime Erfassungsdatum
         {
-            get
-            {
-                return _erfassungsdatum;
-            }
+            get { return _erfassungsdatum; }
 
-            set
-            {
-                SetProperty(ref _erfassungsdatum, value);
-            }
+            set { SetProperty(ref _erfassungsdatum, value); }
         }
 
         public string Benutzer
         {
-            get
-            {
-                return _benutzer;
-            }
+            get { return _benutzer; }
 
-            set
-            {
-                SetProperty(ref _benutzer, value);
-            }
+            set { SetProperty(ref _benutzer, value); }
         }
 
         public DelegateCommand CmdDurchsuchen { get; }
@@ -127,28 +95,16 @@
 
         public DateTime? ValutaDatum
         {
-            get
-            {
-                return _valutaDatum;
-            }
+            get { return _valutaDatum; }
 
-            set
-            {
-                SetProperty(ref _valutaDatum, value);
-            }
+            set { SetProperty(ref _valutaDatum, value); }
         }
 
         public bool IsRemoveFileEnabled
         {
-            get
-            {
-                return _isRemoveFileEnabled;
-            }
+            get { return _isRemoveFileEnabled; }
 
-            set
-            {
-                SetProperty(ref _isRemoveFileEnabled, value);
-            }
+            set { SetProperty(ref _isRemoveFileEnabled, value); }
         }
 
         private void OnCmdDurchsuchen()
@@ -166,7 +122,33 @@
         {
             // TODO: Add your Code here
 
+            var metadataItem = new MetadataItem(_bezeichnung, _erfassungsdatum, _typItems[0], _stichwoerter);
+
+            // überprüfen ob die Pflichtfelder ausgefüllt worden sind:
+            if (!requiredFields())
+            {
+                MessageBox.Show("Es müssen alle Pflichtfelder ausgefüllt werden!");
+                return;
+            }
+            var documentLibrary = new DocumentLibrary();
+            var xmlService = new XmlService();
+
+            // File Speichern:
+            documentLibrary.SaveFileInFolder(this._filePath, ".pdf");
+
+            // MetadatenXmlFile erstellen, speichern und in eine Liste speichern:
+            var guid = documentLibrary.CreateDmsSaveFileName(this._filePath, ".xml");
+            var serialXml = xmlService.CreateXmlWithMetadataItem(metadataItem);
+            xmlService.SaveXml(serialXml, guid);
+
+            
             _navigateBack();
+        }
+
+        private Boolean requiredFields()
+        {
+            return !String.IsNullOrEmpty(this.Bezeichnung) && this.ValutaDatum.HasValue &&
+                   !String.IsNullOrEmpty(this.SelectedTypItem);
         }
     }
 }

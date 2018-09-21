@@ -33,8 +33,8 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Typ"/>
             <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TypItems}" SelectedItem="{Binding SelectedTypItem}"/>
 
-            <Button Grid.Row="0" Grid.Column="5" Content="Suchen"/>
-            <Button Grid.Row="1" Grid.Column="5" Content="Reset"/>
+            <Button Grid.Row="0" Grid.Column="5" Command="{Binding CmdSuchen}" Content="Suchen"/>
+            <Button Grid.Row="1" Grid.Column="5" Command="{Binding CmdReset}" Content="Reset"/>
         </Grid>
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding FilteredMetadataItems}"
@@ -47,6 +47,6 @@
             </DataGrid.Columns>-->
         </DataGrid>
 
-        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Öffnen" Width="100"/>
+        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Command="{Binding CmdOeffnen}" Content="Öffnen" Width="100"/>
     </Grid>
 </UserControl>
