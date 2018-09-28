@@ -13,6 +13,7 @@ namespace ZbW.Testing.Dms.Client.Services
     {
         private string _filePath;
         public string MetadataItemFile { get; private set; }
+        public string PdfItemFile { get; private set; }
 
         public SearchDocumentService()
         {
@@ -25,6 +26,11 @@ namespace ZbW.Testing.Dms.Client.Services
             var foundItems = new List<MetadataItem>();
             foreach (var file in directories)
             {
+                if (Path.GetExtension(file).Equals(".pdf"))
+                {
+                    this.PdfItemFile = file;
+                }
+
                 if (Path.GetExtension(file).Equals(".xml"))
                 {
                     {

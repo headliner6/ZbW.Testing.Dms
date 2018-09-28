@@ -31,7 +31,7 @@ namespace ZbW.Testing.Dms.Client.ViewModels
 
             CmdSuchen = new DelegateCommand(OnCmdSuchen);
             CmdReset = new DelegateCommand(OnCmdReset);
-            CmdOeffnen = new DelegateCommand(OnCmdOeffnen, OnCanCmdOeffnen);
+            CmdOeffnen = new DelegateCommand(OnCmdOeffnen, OnCanCmdOeffnen); // OnCanCmdOeffnen
         }
 
         public DelegateCommand CmdOeffnen { get; }
@@ -116,7 +116,13 @@ namespace ZbW.Testing.Dms.Client.ViewModels
         private void OnCmdOeffnen()
         {
             // TODO: Add your Code here
-            File.Open(searchService.MetadataItemFile, FileMode.Open);
+            var pdfDataWithExtension = searchService.PdfItemFile;
+            var pdfData = Path.ChangeExtension(pdfDataWithExtension, ".pdf");
+
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.EnableRaisingEvents = false;
+            process.StartInfo.FileName = pdfData;
+            process.Start();
         }
 
         private void OnCmdSuchen()
