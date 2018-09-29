@@ -135,6 +135,7 @@ namespace ZbW.Testing.Dms.Client.ViewModels
 
             // File Speichern:
             documentLibrary.SaveFileInFolder(this._filePath, ".pdf");
+            metadataItem.FilePath = documentLibrary.FilePath;
 
             // MetadatenXmlFile erstellen, speichern und in eine Liste speichern:
             var guid = documentLibrary.CreateDmsSaveFileName(this._filePath, ".xml");

@@ -26,10 +26,6 @@ namespace ZbW.Testing.Dms.Client.Services
             var foundItems = new List<MetadataItem>();
             foreach (var file in directories)
             {
-                if (Path.GetExtension(file).Equals(".pdf"))
-                {
-                    this.PdfItemFile = file;
-                }
 
                 if (Path.GetExtension(file).Equals(".xml"))
                 {

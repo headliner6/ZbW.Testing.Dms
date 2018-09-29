@@ -11,6 +11,7 @@ namespace ZbW.Testing.Dms.Client.Model
         public DateTime ValutaDatum { get; set; } //Required Fields
         public string Typ { get; set; } //Required Fields
         public string Stichwoerter { get; set; } //Optional Fields
+        public string FilePath { get; set; }
 
         public MetadataItem(string bezeichnung, DateTime valutaDatum, string type, string stichwoerter)
         {

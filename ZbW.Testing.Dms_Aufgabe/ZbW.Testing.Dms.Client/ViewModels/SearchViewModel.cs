@@ -116,12 +116,10 @@ namespace ZbW.Testing.Dms.Client.ViewModels
         private void OnCmdOeffnen()
         {
             // TODO: Add your Code here
-            var pdfDataWithExtension = searchService.PdfItemFile;
-            var pdfData = Path.ChangeExtension(pdfDataWithExtension, ".pdf");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             process.EnableRaisingEvents = false;
-            process.StartInfo.FileName = pdfData;
+            process.StartInfo.FileName = _selectedMetadataItem.FilePath;
             process.Start();
         }
 
@@ -159,6 +157,11 @@ namespace ZbW.Testing.Dms.Client.ViewModels
         private void OnCmdReset()
         {
             // TODO: Add your Code here
+
+            FilteredMetadataItems = null;
+            Suchbegriff = null;
+            SelectedTypItem = null;
+           
         }
     }
 }

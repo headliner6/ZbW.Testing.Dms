@@ -14,8 +14,9 @@ namespace ZbW.Testing.Dms.Client.Services
     class DocumentLibrary
     {
         private string targetPath = @"C:\Temp\DMS";
-
         private string id;
+
+        public string FilePath;
 
         public DocumentLibrary()
         {
@@ -28,10 +29,11 @@ namespace ZbW.Testing.Dms.Client.Services
             this.id = guid;
         }
 
-        public void SaveFileInFolder(string filePath, string fileTyp)
+        public void SaveFileInFolder(string path, string fileTyp)
         {
-            var fName = CreateDmsSaveFileName(filePath, fileTyp);
-            File.Copy(Path.Combine(filePath), Path.Combine(targetPath, fName), true);
+            var fileName = CreateDmsSaveFileName(path, fileTyp);
+            this.FilePath = Path.Combine(targetPath, fileName);
+            File.Copy(Path.Combine(path), Path.Combine(targetPath, fileName), true);
 
         }
 
@@ -51,7 +53,7 @@ namespace ZbW.Testing.Dms.Client.Services
                     break;
                     
                 case ".xml":
-                    return this.id + "_" + this.GetFileNameFromPath(filePath) + "_" + "Metadaten" + ".xml";
+                    return this.id + "_" + "Metadaten" + ".xml";
                     break;
             }
 
